@@ -1,0 +1,63 @@
+# Blueprint manifest schema
+# This file defines the standardized metadata fields used by Aetheria blueprints.
+# Use this as a canonical reference. Individual blueprints should include a
+# YAML frontmatter that conforms to this schema.
+
+# Top-level fields
+# name: Human-friendly title of the blueprint
+# slug: filesystem- and URL-safe identifier (lowercase, hyphens)
+# description: One-line summary of the blueprint's purpose
+# version: semantic version string for the blueprint
+# author: author name or organization
+# date_created: ISO 8601 date of creation
+# tags: high-level categories (creator, media, mobile, medical, automation, etc.)
+# supported_llms: list of recommended or tested LLMs (e.g., ["gpt-4o", "gemini-1"])
+# estimated_runtime_minutes: how long a typical run takes (integer)
+# estimated_cost_usd: approximate LLM/API cost per run (float)
+# license: one of ["public", "paid", "restricted", "commercial"]
+# visibility: either "public" or "private" (for marketplace/paid items)
+# inputs: parameter schema (list of objects describing expected input params)
+# outputs: expected artifact types (list)
+# notes: freeform field for caveats, safety, or compliance notes
+# examples: list of example inputs/outputs or demo links
+
+# Example manifest (use as template inside blueprint frontmatter)
+# ---
+# name: Creator Media Pipeline
+# slug: creator-media-pipeline
+# description: Multi-model pipeline that generates short-form and long-form video plans, script, and asset lists.
+# version: 0.1.0
+# author: Aetheria Labs
+# date_created: 2026-08-03T00:00:00Z
+# tags:
+#   - creator
+#   - media
+#   - content
+# supported_llms:
+#   - gpt-4o
+#   - gemini
+# estimated_runtime_minutes: 4
+# estimated_cost_usd: 0.40
+# license: paid
+# visibility: paid
+# inputs:
+#   - name: topic
+#     type: string
+#     required: true
+#     description: Core subject or theme for the content pipeline
+#   - name: tone
+#     type: string
+#     required: false
+#     default: "informal"
+#     description: Voice/tone for generated scripts
+# outputs:
+#   - asset_manifest (json)
+#   - script_md
+#   - production_schedule
+# notes: |
+#   Contains guidance tuned for family-safe content. Not for clinical decision-making.
+# examples:
+#   - demo_run: https://example.com/demo
+# ---
+
+# End of canonical manifest.yaml
