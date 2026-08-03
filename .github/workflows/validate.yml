@@ -1,0 +1,20 @@
+name: Validate Blueprints
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Make Validator Executable
+        run: chmod +x validate_blueprints.sh || true
+
+      - name: Run Blueprint Frontmatter Validator
+        run: ./validate_blueprints.sh .

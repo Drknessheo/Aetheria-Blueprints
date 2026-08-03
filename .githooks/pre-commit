@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+set -euo pipefail
+
+VALIDATOR="./validate_blueprints.sh"
+if [ ! -x "$VALIDATOR" ]; then
+    if [ -f "$VALIDATOR" ]; then
+        chmod +x "$VALIDATOR" || true
+    else
+        echo "Warning: $VALIDATOR not found. Skipping blueprint validation."
+        exit 0
+    fi
+fi
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md' || true)
+if [ -z "$STAGED" ]; then
+    exit 0
+fi
+
+FAIL=0
+for f in $STAGED; do
+    case "$f" in
+        README.md|blueprint_template.md) continue ;;
+    esac
+    echo "Validating frontmatter for: $f"
+    "$VALIDATOR" "$(dirname "$f")" || {
+        echo "Commit blocked: $f failed frontmatter validation."
+        FAIL=1
+    }
+done
+
+if [ "$FAIL" -ne 0 ]; then
+    echo "One or more files failed validation. Fix frontmatter and re-stage."
+    exit 1
+fi
+
+exit 0
